@@ -12,19 +12,25 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 
 public class MyActivity extends ActionBarActivity {
 
     private Button button;
     private int mId;
+    private ToggleButton been;
+    private ToggleButton save;
+    private ToggleButton love;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
         setUpButton();
+        setUpRatings();
     }
 
 
@@ -90,6 +96,50 @@ public class MyActivity extends ActionBarActivity {
                 // mId allows you to update the notification later on.
                 mNotificationManager.notify(mId, mBuilder.build());
 
+            }
+        });
+    }
+    //Docs: http://developer.android.com/guide/topics/ui/controls/togglebutton.html
+    private void setUpRatings() {
+        been = (ToggleButton) findViewById(R.id.been);
+        save = (ToggleButton) findViewById(R.id.save);
+        love = (ToggleButton) findViewById(R.id.love);
+
+        been.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // The toggle is enabled
+                    save.setVisibility(View.GONE);
+                    love.setVisibility(View.VISIBLE);
+                    save.setChecked(false);
+                } else {
+                    // The toggle is disabled
+                    save.setVisibility(View.VISIBLE);
+                    love.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        love.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // The toggle is enabled
+                    been.setVisibility(View.GONE);
+                } else {
+                    // The toggle is disabled
+                    been.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        save.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // The toggle is enabled
+                    been.setChecked(false);
+                } else {
+                    // The toggle is disabled
+                }
             }
         });
     }
